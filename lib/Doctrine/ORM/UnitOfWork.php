@@ -3194,7 +3194,11 @@ EXCEPTION
 
                 if (isset($mapping['indexBy'])) {
                     $indexByProperty = $targetClass->getReflectionProperty($mapping['indexBy']);
-                    $collectionBatch[$idHash]->hydrateSet($indexByProperty->getValue($targetValue), $targetValue);
+
+                    $key = $indexByProperty->getValue($targetValue);
+                    $key = is_object($key) ? (string) $key : $key;
+
+                    $collectionBatch[$idHash]->hydrateSet($key, $targetValue);
                 } else {
                     $collectionBatch[$idHash]->add($targetValue);
                 }
